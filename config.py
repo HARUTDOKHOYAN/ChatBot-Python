@@ -1,7 +1,7 @@
 from enum import Enum
 
 
-TOKEN = '5581007276:AAGGEa2ZURxijMdm2uD3MPPRlBmeOv9bDrc'
+TOKEN = ''
 
 class BotState (Enum):
     FindPatern = 1
