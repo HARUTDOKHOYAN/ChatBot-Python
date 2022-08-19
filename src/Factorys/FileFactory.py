@@ -29,12 +29,10 @@ def GetAllFilesList():
     for chapter in DataChapters.values():
         FileNamelist.extend(chapter.FilesList.keys())
     return FileNamelist
-def GetFile(doc):
-        for token in doc:
-            if token.pos_ == 'NOUN':
-                for chapter in DataChapters.values():
-                   if token.text.lower() in chapter.FilesList:
-                        return chapter.FilesList[token.text.lower()]
+def GetFilePath(text):
+        for chapter in DataChapters.values():
+             if text.lower() in chapter.FilesList:
+                        return chapter.FilesList[text.lower()]
         return None
 
 

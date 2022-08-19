@@ -21,16 +21,15 @@ def CancelBot(update , context):
 def GetPatern(update , context):
     msg = update.message.text
     doc = nlp(msg)
-
     patern = PaternFactory.FindPatern(doc)
-    if  patern.Name == BotPatern.FindPatern:
-        update.message.reply_text("Your intent is not recognize.Try again or show List")
-        return patern.Name
-    elif patern.Name == BotPatern.GetFilePatern:
-        path =  FileFactory.GetFile(doc)
-        if path != None:
-                file = open(path , mode='rb',)
+
+    if patern.Name == BotPatern.GetFilePatern:
+        if patern.Text != "Your File is not recognize":
+                file = open(patern.Text , mode='rb',)
                 update.message.reply_document(file)
+        else:
+            update.message.reply_text(patern.Text)
+        return BotPatern.FindPatern
     else:
         update.message.reply_text(patern.Text) 
         return patern.Name
@@ -46,10 +45,12 @@ def GetList(update , context):
             update.message.reply_text("Write the number of the required date")    
             return BotPatern.ListPatern 
     elif patern.Name == BotPatern.GetFilePatern:
-        path =  FileFactory.GetFile(doc)
-        if path != None:
-                file = open(path , mode='rb',)
+        if patern.Text != "Your File is not recognize":
+                file = open(patern.Text , mode='rb',)
                 update.message.reply_document(file)
+        else:
+            update.message.reply_text(patern.Text)
+        return BotPatern.FindPatern
     else:
         update.message.reply_text(patern.Text) 
         return patern.Name
@@ -64,6 +65,13 @@ def GetCalendar(update , context):
         else:
             update.message.reply_text("Write the type of the required date")    
             return BotPatern.CalendarPatern 
+    elif patern.Name == BotPatern.GetFilePatern:
+        if patern.Text != "Your File is not recognize":
+                file = open(patern.Text , mode='rb',)
+                update.message.reply_document(file)
+        else:
+            update.message.reply_text(patern.Text)
+        return BotPatern.FindPatern
     else:
         update.message.reply_text(patern.Text) 
         return patern.Name
