@@ -39,3 +39,9 @@ PaternsList.append(PaternModel(
                               ['calendar','taskList'],
                               CalendarManager.GetCalendarText()
                               ))
+PaternsList.append(PaternModel(
+                              BotPatern.GetFilePatern,
+                              ['take','want','give','get','show'],
+                              FileFactory.GetAllFilesList(),
+                              ' '
+                              ))

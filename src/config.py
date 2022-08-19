@@ -1,15 +1,15 @@
-from enum import Enum
 import sys
+from enum import Enum
+
+sys.path.insert(1, ".\src\Factorys")
+sys.path.insert(1, "./Managers")
 
 
-sys.path.insert(1, "C:/Cragravorum/PYTHON/NLP/ChatBot/Factorys")
-sys.path.insert(1, "C:/Cragravorum/PYTHON/NLP/ChatBot/Managers")
-
-
-TOKEN = ''
+TOKEN = 'SetUp ID'
 DayCalendarImage = ""
 WeekCalendarImage = ""
 class BotPatern (Enum):
     FindPatern = 1
     ListPatern = 2
     CalendarPatern = 3 
+    GetFilePatern = 4

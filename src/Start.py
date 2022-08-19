@@ -1,8 +1,8 @@
+from config import BotPatern , TOKEN 
 import spacy  
 import FileFactory
 import PaternFactory
 import CalendarManager
-from config import BotPatern , TOKEN 
 from telegram.ext import Updater , MessageHandler , Filters , ConversationHandler ,CommandHandler
 
 
@@ -24,8 +24,13 @@ def GetPatern(update , context):
 
     patern = PaternFactory.FindPatern(doc)
     if  patern.Name == BotPatern.FindPatern:
-        update.message.reply_text("Your intent is not recognize.Try again")
+        update.message.reply_text("Your intent is not recognize.Try again or show List")
         return patern.Name
+    elif patern.Name == BotPatern.GetFilePatern:
+        path =  FileFactory.GetFile(doc)
+        if path != None:
+                file = open(path , mode='rb',)
+                update.message.reply_document(file)
     else:
         update.message.reply_text(patern.Text) 
         return patern.Name
@@ -40,6 +45,11 @@ def GetList(update , context):
         else:
             update.message.reply_text("Write the number of the required date")    
             return BotPatern.ListPatern 
+    elif patern.Name == BotPatern.GetFilePatern:
+        path =  FileFactory.GetFile(doc)
+        if path != None:
+                file = open(path , mode='rb',)
+                update.message.reply_document(file)
     else:
         update.message.reply_text(patern.Text) 
         return patern.Name
@@ -49,15 +59,14 @@ def GetCalendar(update , context):
 
     patern = PaternFactory.FindPatern(doc)
     if  patern.Name == BotPatern.FindPatern:
-        if msg.lower() in CalendarManager.CalendarDIC.keys():
+        if msg.lower().capitalize() in CalendarManager.CalendarDIC.keys():
              update.message.reply_photo(photo=open(CalendarManager.CalendarDIC[msg], 'rb'))
         else:
-            update.message.reply_text("Write the number of the required date")    
-            return BotPatern.ListPatern 
+            update.message.reply_text("Write the type of the required date")    
+            return BotPatern.CalendarPatern 
     else:
         update.message.reply_text(patern.Text) 
         return patern.Name
-    return BotPatern.FindPatern
 def MainBot():
     updater = Updater(TOKEN,use_context=True)
     disp = updater.dispatcher

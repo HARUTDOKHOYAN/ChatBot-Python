@@ -1,3 +1,6 @@
+from distutils.filelist import FileList
+
+
 class Chapter(object):
     def __init__(self , name , filesList):
         self.Name = name
@@ -21,10 +24,23 @@ def GetChaptersLIst():
          count+=1
     string += "---------------------------------"
     return string 
+def GetAllFilesList():
+    FileNamelist = []
+    for chapter in DataChapters.values():
+        FileNamelist.extend(chapter.FilesList.keys())
+    return FileNamelist
+def GetFile(doc):
+        for token in doc:
+            if token.pos_ == 'NOUN':
+                for chapter in DataChapters.values():
+                   if token.text.lower() in chapter.FilesList:
+                        return chapter.FilesList[token.text.lower()]
+        return None
+
 
 DataChapters = {}
 DataChapters.update({"1" :Chapter('Lessons Books',{
-                                                 "brand": "Ford",
+                                                 "python": "PYTHON\\NLP\\TelegramBot\\BotEnams.py",
                                                  "model": "Mustang",
                                                  "year": 1964,
                                                  })})
