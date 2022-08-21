@@ -24,11 +24,13 @@ def GetChaptersLIst():
          count+=1
     string += "---------------------------------"
     return string 
+
 def GetAllFilesList():
     FileNamelist = []
     for chapter in DataChapters.values():
         FileNamelist.extend(chapter.FilesList.keys())
     return FileNamelist
+    
 def GetFilePath(text):
         for chapter in DataChapters.values():
              if text.lower() in chapter.FilesList:
