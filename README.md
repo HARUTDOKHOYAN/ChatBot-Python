@@ -10,7 +10,7 @@ The <b>Chatbot</b> processes text limit but with help of a flexible code it can 
 The <b>Chatbot</b> is written in Python and is based on <b>SPACY</b> module.<br>
 Messenger uses <b>Telegram</b> and works with it using <b>python-telegram-bot</b> module<br>
 By receiving a text from the user, it is processed by <b>SPACY</b> and then sent to the <b>StateFactory</b>.<br>
-Using the template, it recognizes the intention of the user.<br>
+Using the templates, it recognizes the intention of the user.<br>
 
 ### What was used for the project?
 
