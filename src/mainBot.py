@@ -3,20 +3,38 @@ import BooksRepo
 from telebot import types
 from config import TOKEN
 
+
 bot = telebot.TeleBot(TOKEN)
 books = BooksRepo.Repository()
 books.InitDirectory()
 
 
-
-
 @bot.message_handler(commands=["start"])
 def start(message):
+    BooksRepo.CurrentFolder = "testDr"
     mess = f"Hi <b>{message.from_user.first_name}</b>  It is Books Repository"
     markup = books.CreatFolderMarkups("testDr")
-    bot.send_message(message.chat.id, mess ,  parse_mode='html', reply_markup=markup)
+    bot.send_message(message.chat.id, mess,
+                     parse_mode='html', reply_markup=markup)
 
 
+@bot.message_handler(func=lambda messeg: books.IsConteinFolder(messeg.text))
+def FolderHansler(message):
+    BooksRepo.CurrentFolder = message.text
+    markup = books.CreatFolderMarkups(message.text)
+    bot.send_message(message.chat.id, "1",
+                     parse_mode='html', reply_markup=markup)
+
+
+@bot.message_handler(func=lambda messeg: messeg.text == "<--Back")
+def FolderBeckHansler(message):
+    parentFolder = books.FindParentFolder(BooksRepo.CurrentFolder)
+    if (parentFolder == None): return
+    BooksRepo.CurrentFolder = parentFolder.Name
+    markup = books.CreatFolderMarkups(parentFolder.Name)
+    bot.send_message(message.chat.id, "1", reply_markup=markup)
+    
+    
 # @bot.message_handler(commands=["dock"])
 # def start(message):
 #     markup = types.InlineKeyboardMarkup()
