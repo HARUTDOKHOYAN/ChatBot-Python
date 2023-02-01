@@ -22,7 +22,8 @@ def start(message):
 def FolderHansler(message):
     BooksRepo.CurrentFolder = message.text
     markup = books.CreatFolderMarkups(message.text)
-    bot.send_message(message.chat.id, "1",
+    mess = f"Choose folder or write name of preferable file \n {books.GetFilesList(message.text)}"
+    bot.send_message(message.chat.id, mess,
                      parse_mode='html', reply_markup=markup)
 
 
@@ -32,7 +33,8 @@ def FolderBeckHansler(message):
     if (parentFolder == None): return
     BooksRepo.CurrentFolder = parentFolder.Name
     markup = books.CreatFolderMarkups(parentFolder.Name)
-    bot.send_message(message.chat.id, "1", reply_markup=markup)
+    mess = f"Choose folder or write name of preferable file \n {books.GetFilesList(parentFolder.Name)}"
+    bot.send_message(message.chat.id, mess, parse_mode="html" , reply_markup=markup)
     
     
 # @bot.message_handler(commands=["dock"])

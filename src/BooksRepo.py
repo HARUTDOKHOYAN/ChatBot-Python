@@ -4,6 +4,7 @@ import config
 
 CurrentFolder = ""
 
+
 class File():
     def __init__(self, name, path):
         self.Name = name
@@ -41,10 +42,20 @@ class Repository():
         if (rootFolder.Folders == None):
             return None
         for folder in rootFolder.Folders:
-            result = self.FindFolder(folder, name) 
-            if(result !=None):
+            result = self.FindFolder(folder, name)
+            if (result != None):
                 return result
         return None
+
+    def GetFilesList(self, folderName):
+        folder = self.FindFolder(self._book_directory , folderName)
+        string = "---------------------------------\n"
+        count = 1
+        for file in folder.Files:
+            string += str(count) + "." + file.Name + "\n"
+            count += 1
+        string += "---------------------------------"
+        return string
 
     def FindParentFolder(self, name):
         return self._findParentFolder(name, self._book_directory)
@@ -59,11 +70,11 @@ class Repository():
             if folder.Name == name:
                 return rootFolder
         for folder in rootFolder.Folders:
-            return self._findParentFolder(name ,folder)
+            return self._findParentFolder(name, folder)
         return None
 
     def _creatFolderTree(self, path: str):
-        splitPath = path.split("\\")
+        splitPath = path.split(config.OsPath)
         folder = Folder(splitPath[len(splitPath) - 1], None, None)
         list_of_files = sorted(filter(lambda x: os.path.isfile(
             os.path.join(path, x)),  os.listdir(path)))
