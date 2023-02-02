@@ -29,26 +29,15 @@ class Repository():
     def CreatFolderMarkups(self, name: str):
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
         markup.add(types.KeyboardButton("<--Back"))
-        folder = self.FindFolder(self._book_directory, name)
+        folder = self._findFolder(self._book_directory, name)
         if (folder.Folders == None):
             return markup
         for folder in folder.Folders:
             markup.add(types.KeyboardButton(folder.Name))
         return markup
 
-    def FindFolder(self, rootFolder: Folder, name):
-        if name == rootFolder.Name:
-            return rootFolder
-        if (rootFolder.Folders == None):
-            return None
-        for folder in rootFolder.Folders:
-            result = self.FindFolder(folder, name)
-            if (result != None):
-                return result
-        return None
-
     def GetFilesList(self, folderName):
-        folder = self.FindFolder(self._book_directory , folderName)
+        folder = self._findFolder(self._book_directory, folderName)
         string = "---------------------------------\n"
         count = 1
         for file in folder.Files:
@@ -61,16 +50,13 @@ class Repository():
         return self._findParentFolder(name, self._book_directory)
 
     def IsConteinFolder(self, name):
-        return self.FindFolder(self._book_directory, name) != None
+        return self._findFolder(self._book_directory, name) != None
 
-    def _findParentFolder(self, name, rootFolder: Folder):
-        if (rootFolder.Folders == None):
-            return None
-        for folder in rootFolder.Folders:
-            if folder.Name == name:
-                return rootFolder
-        for folder in rootFolder.Folders:
-            return self._findParentFolder(name, folder)
+    def GetFileFromFolder(self, folderName, fileName):
+        folder = self._findFolder(self._book_directory, folderName)
+        for file in folder.Files:
+            if file.Name == fileName:
+                return file.Path
         return None
 
     def _creatFolderTree(self, path: str):
@@ -91,3 +77,24 @@ class Repository():
             return folder
         else:
             return folder
+
+    def _findParentFolder(self, name, rootFolder: Folder):
+        if (rootFolder.Folders == None):
+            return None
+        for folder in rootFolder.Folders:
+            if folder.Name == name:
+                return rootFolder
+        for folder in rootFolder.Folders:
+            return self._findParentFolder(name, folder)
+        return None
+
+    def _findFolder(self, rootFolder: Folder, name):
+        if name == rootFolder.Name:
+            return rootFolder
+        if (rootFolder.Folders == None):
+            return None
+        for folder in rootFolder.Folders:
+            result = self._findFolder(folder, name)
+            if (result != None):
+                return result
+        return None
