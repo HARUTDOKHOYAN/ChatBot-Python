@@ -41,7 +41,7 @@ class Repository():
         string = "---------------------------------\n"
         count = 1
         for file in folder.Files:
-            string += str(count) + "." + file.Name + "\n"
+            string +=f"{str(count)}) {file.Name} \n"
             count += 1
         string += "---------------------------------"
         return string
@@ -52,11 +52,17 @@ class Repository():
     def IsConteinFolder(self, name):
         return self._findFolder(self._book_directory, name) != None
 
-    def GetFileFromFolder(self, folderName, fileName):
+    def GetFileFromFolder(self, folderName, fileNumber):
         folder = self._findFolder(self._book_directory, folderName)
+        try:
+            number =  int(fileNumber)  - 1 
+        except:
+            return None
+        count = 0
         for file in folder.Files:
-            if file.Name == fileName:
+            if count == number:
                 return file.Path
+            count += 1
         return None
 
     def _creatFolderTree(self, path: str):
