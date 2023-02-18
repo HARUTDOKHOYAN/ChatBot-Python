@@ -91,7 +91,9 @@ class Repository():
             if folder.Name == name:
                 return rootFolder
         for folder in rootFolder.Folders:
-            return self._findParentFolder(name, folder)
+            result =  self._findParentFolder(name, folder)
+            if (result != None):
+                return result
         return None
 
     def _findFolder(self, rootFolder: Folder, name):
